@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accueil - Current</title>
+  <link rel="stylesheet" href="Home.css">
+  <link rel="icon" href="Images/Logo.webp">
+</head>
+<body>
+
+<div class="border-box">
+  <h1 class="title">Créez votre CV facilement et rapidement</h1>
+  <p class="subtitle">
+    Bienvenue sur <strong>Current</strong>, la plateforme qui vous aide à créer votre CV professionnel 
+    en quelques minutes. Simple, rapide et efficace.
+  </p>
+  <div class="features">
+    <div class="feature-item">
+      <span class="feature-icon">⚡</span>
+      <h3>Rapide</h3>
+      <p>Créez votre CV en moins de 5 minutes</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🎨</span>
+      <h3>Design moderne</h3>
+      <p>Templates professionnels et élégants</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">💾</span>
+      <h3>Sauvegarde auto</h3>
+      <p>Vos CVs sont enregistrés automatiquement</p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-item">
+      <span class="stat-number">1000+</span>
+      <span class="stat-label">CVs créés</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">4.8/5</span>
+      <span class="stat-label">Note moyenne</span>
+    </div>
+  </div>
+  <div class="buttons">
+    <button class="btn secondary" id="btn-afficher">Afficher les CV enregistrés</button>
+    <button class="btn" id="btn-creer">Créer un CV</button>
+  </div>
+
+  <script>
+  document.getElementById("btn-creer").addEventListener("click", function() {
+    window.location.href = "Input.html";
+  });
+</script>
+
+</body>
+</html>
