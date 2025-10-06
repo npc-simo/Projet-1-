@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV - Template 2</title>
+  <link rel="stylesheet" href="Cv2.css">
+  <link rel="icon" href="Images/Logo.webp">
+</head>
+<body>
+
+  <div class="cv-wrapper">
+    
+    <!-- Sidebar -->
+    <aside class="cv-sidebar">
+      
+      <!-- Profile Photo -->
+      <div class="profile-section">
+        <div class="profile-photo" id="profilePhoto"></div>
+        <h1 class="name" id="fullName"></h1>
+        <p class="job-title" id="jobTitle"></p>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Contact</h3>
+        <div class="contact-list" id="contactList"></div>
+      </div>
+
+      <!-- Skills -->
+      <div class="sidebar-section" id="skillsSection">
+        <h3 class="sidebar-title">Compétences</h3>
+        <div class="skills-list" id="skillsList"></div>
+      </div>
+
+      <!-- Soft Skills -->
+      <div class="sidebar-section" id="softSkillsSection">
+        <h3 class="sidebar-title">Soft Skills</h3>
+        <div class="soft-skills-list" id="softSkillsList"></div>
+      </div>
+
+      <!-- Languages -->
+      <div class="sidebar-section" id="languagesSection">
+        <h3 class="sidebar-title">Langues</h3>
+        <div class="languages-list" id="languagesList"></div>
+      </div>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="cv-main">
+      
+      <!-- About Section -->
+      <section class="main-section">
+        <h2 class="main-title">Profil</h2>
+        <p class="about-text" id="aboutText"></p>
+      </section>
+
+      <!-- Experience Section -->
+      <section class="main-section" id="experienceSection">
+        <h2 class="main-title">Expérience Professionnelle</h2>
+        <div id="experienceContainer"></div>
+      </section>
+
+      <!-- Education Section -->
+      <section class="main-section" id="educationSection">
+        <h2 class="main-title">Formation</h2>
+        <div id="educationContainer"></div>
+      </section>
+
+      <!-- Actions -->
+      <div class="cv-actions">
+        <button class="btn-action" onclick="window.print()">Télécharger PDF</button>
+        <button class="btn-action secondary" onclick="window.location.href='Input.html'">Modifier</button>
+        <button class="btn-action secondary" onclick="window.location.href='Home.html'">Accueil</button>
+      </div>
+
+    </main>
+
+  </div>
+
+  <script>
+    // Load CV data from localStorage
+    const cvData = JSON.parse(localStorage.getItem('cvData'));
+    const cvPhoto = localStorage.getItem('cvPhoto');
+
+    if (!cvData) {
+      alert('Aucune donnée trouvée. Veuillez remplir le formulaire.');
+      window.location.href = 'Input.html';
+    } else {
+      populateCV(cvData);
+    }
+
+    function populateCV(data) {
+      // Profile Photo
+      const profilePhoto = document.getElementById('profilePhoto');
+      if (cvPhoto) {
+        profilePhoto.innerHTML = `<img src="${cvPhoto}" alt="Photo">`;
+      } else {
+        const initials = (data.prenom ? data.prenom.charAt(0) : '') + (data.nom ? data.nom.charAt(0) : '');
+        profilePhoto.innerHTML = `<div class="placeholder-avatar">${initials}</div>`;
+      }
+
+      // Full Name & Job Title
+      document.getElementById('fullName').textContent = `${data.prenom || ''} ${data.nom || ''}`;
+      document.getElementById('jobTitle').textContent = data.poste_souhaite || '';
+
+      // Contact Info
+      const dateNaissance = `${data.day || ''}/${data.month || ''}/${data.year || ''}`;
+      const contactList = document.getElementById('contactList');
+      contactList.innerHTML = `
+        <div class="contact-item">
+          <span class="icon">📧</span>
+          <span class="text">${data.email || ''}</span>
+        </div>
+        <div class="contact-item">
+          <span class="icon">📱</span>
+          <span class="text">${data.telephone || ''}</span>
+        </div>
+        <div class="contact-item">
+          <span class="icon">📍</span>
+          <span class="text">${data.ville || ''}</span>
+        </div>
+        <div class="contact-item">
+          <span class="icon">🎂</span>
+          <span class="text">${dateNaissance}</span>
+        </div>
+      `;
+
+      // About/Resume
+      document.getElementById('aboutText').textContent = data.resume || '';
+
+      // Technical Skills
+      const skillsList = document.getElementById('skillsList');
+      if (data.competences) {
+        const skills = data.competences.split(',').map(s => s.trim()).filter(s => s);
+        const skillLevels = [95, 90, 85, 80, 75, 70, 65, 60, 55, 50];
+        
+        skills.forEach((skill, index) => {
+          const skillDiv = document.createElement('div');
+          skillDiv.className = 'skill-item';
+          const level = skillLevels[index % skillLevels.length];
+          skillDiv.innerHTML = `
+            <span class="skill-name">${skill}</span>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: ${level}%"></div>
+            </div>
+          `;
+          skillsList.appendChild(skillDiv);
+        });
+      } else {
+        document.getElementById('skillsSection').style.display = 'none';
+      }
+
+      // Soft Skills
+      const softSkillsList = document.getElementById('softSkillsList');
+      if (data.soft_skills) {
+        const softSkills = data.soft_skills.split(',').map(s => s.trim()).filter(s => s);
+        softSkills.forEach(skill => {
+          const skillSpan = document.createElement('span');
+          skillSpan.className = 'soft-skill';
+          skillSpan.textContent = skill;
+          softSkillsList.appendChild(skillSpan);
+        });
+      } else {
+        document.getElementById('softSkillsSection').style.display = 'none';
+      }
+
+      // Languages
+      const languagesList = document.getElementById('languagesList');
+      const hasLangue1 = data.langue1 && data.niveau1;
+      const hasLangue2 = data.langue2 && data.niveau2;
+
+      if (hasLangue1 || hasLangue2) {
+        const levelDots = {
+          'debutant': '●●○○○',
+          'intermediaire': '●●●○○',
+          'avance': '●●●●○',
+          'courant': '●●●●●',
+          'natif': '●●●●●'
+        };
+
+        if (hasLangue1) {
+          const langDiv1 = document.createElement('div');
+          langDiv1.className = 'language-item';
+          langDiv1.innerHTML = `
+            <span class="lang-name">${data.langue1}</span>
+            <span class="lang-level">${levelDots[data.niveau1] || '●●●○○'}</span>
+          `;
+          languagesList.appendChild(langDiv1);
+        }
+
+        if (hasLangue2) {
+          const langDiv2 = document.createElement('div');
+          langDiv2.className = 'language-item';
+          langDiv2.innerHTML = `
+            <span class="lang-name">${data.langue2}</span>
+            <span class="lang-level">${levelDots[data.niveau2] || '●●●○○'}</span>
+          `;
+          languagesList.appendChild(langDiv2);
+        }
+      } else {
+        document.getElementById('languagesSection').style.display = 'none';
+      }
+
+      // Experiences
+      const experienceContainer = document.getElementById('experienceContainer');
+      const postes = Array.isArray(data['poste[]']) ? data['poste[]'] : [data['poste[]']];
+      const entreprises = Array.isArray(data['entreprise[]']) ? data['entreprise[]'] : [data['entreprise[]']];
+      const exp_debuts = Array.isArray(data['exp_debut[]']) ? data['exp_debut[]'] : [data['exp_debut[]']];
+      const exp_fins = Array.isArray(data['exp_fin[]']) ? data['exp_fin[]'] : [data['exp_fin[]']];
+      const exp_descs = Array.isArray(data['exp_desc[]']) ? data['exp_desc[]'] : [data['exp_desc[]']];
+
+      if (postes && postes[0]) {
+        postes.forEach((poste, index) => {
+          if (poste) {
+            const expDiv = document.createElement('div');
+            expDiv.className = 'timeline-item';
+            expDiv.innerHTML = `
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <div class="timeline-header">
+                  <div>
+                    <h3 class="timeline-title">${poste}</h3>
+                    <p class="timeline-company">${entreprises[index] || ''}</p>
+                  </div>
+                  <span class="timeline-date">${exp_debuts[index] || ''} - ${exp_fins[index] || ''}</span>
+                </div>
+                <p class="timeline-description">${exp_descs[index] || ''}</p>
+              </div>
+            `;
+            experienceContainer.appendChild(expDiv);
+          }
+        });
+      } else {
+        document.getElementById('experienceSection').style.display = 'none';
+      }
+
+      // Education/Formations
+      const educationContainer = document.getElementById('educationContainer');
+      const diplomes = Array.isArray(data['diplome[]']) ? data['diplome[]'] : [data['diplome[]']];
+      const etablissements = Array.isArray(data['etablissement[]']) ? data['etablissement[]'] : [data['etablissement[]']];
+      const formation_debuts = Array.isArray(data['formation_debut[]']) ? data['formation_debut[]'] : [data['formation_debut[]']];
+      const formation_fins = Array.isArray(data['formation_fin[]']) ? data['formation_fin[]'] : [data['formation_fin[]']];
+      const formation_descs = Array.isArray(data['formation_desc[]']) ? data['formation_desc[]'] : [data['formation_desc[]']];
+
+      if (diplomes && diplomes[0]) {
+        diplomes.forEach((diplome, index) => {
+          if (diplome) {
+            const eduDiv = document.createElement('div');
+            eduDiv.className = 'timeline-item';
+            eduDiv.innerHTML = `
+              <div class="timeline-marker education"></div>
+              <div class="timeline-content">
+                <div class="timeline-header">
+                  <div>
+                    <h3 class="timeline-title">${diplome}</h3>
+                    <p class="timeline-company">${etablissements[index] || ''}</p>
+                  </div>
+                  <span class="timeline-date">${formation_debuts[index] || ''} - ${formation_fins[index] || ''}</span>
+                </div>
+                <p class="timeline-description">${formation_descs[index] || ''}</p>
+              </div>
+            `;
+            educationContainer.appendChild(eduDiv);
+          }
+        });
+      } else {
+        document.getElementById('educationSection').style.display = 'none';
+      }
+    }
+  </script>
+
+</body>
+</html>

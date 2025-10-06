@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV Enregistrés - Current</title>
+  <link rel="stylesheet" href="SeeCV.css">
+  <link rel="icon" href="Images/Logo.webp">
+</head>
+<body>
+
+<div class="border-box">
+  <h1 class="title">CV Enregistrés</h1>
+  <p class="subtitle">
+    Découvrez les CV créés par nos utilisateurs sur la plateforme <strong>Current</strong>.
+  </p>
+
+  <!-- Stats Section
+  <div class="stats">
+    <div class="stat-item">
+      <span class="stat-number">1000+</span>
+      <span class="stat-label">CVs créés</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">850+</span>
+      <span class="stat-label">Utilisateurs actifs</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">95%</span>
+      <span class="stat-label">Taux de satisfaction</span>
+    </div>
+  </div> -->
+
+  <!-- Search and Filter -->
+  <div class="search-section">
+    <input type="text" id="search" placeholder="Rechercher par nom, poste ou compétence..." class="search-input">
+    <select id="filter" class="filter-select">
+      <option value="all">Tous les domaines</option>
+      <option value="tech">Technologie</option>
+      <option value="design">Design</option>
+      <option value="marketing">Marketing</option>
+      <option value="finance">Finance</option>
+      <option value="education">Éducation</option>
+    </select>
+  </div>
+
+  <!-- CV Grid
+  <div class="cv-grid">
+     CV Card 1
+    <div class="cv-card" data-domain="tech">
+      <div class="cv-header">
+        <div class="cv-avatar">
+          <span>AE</span>
+        </div>
+        <div class="cv-info">
+          <h3 class="cv-name">Ahmed El Amrani</h3>
+          <p class="cv-title">Développeur Full Stack</p>
+        </div>
+      </div>
+      <div class="cv-details">
+        <div class="cv-detail-item">
+          <span class="detail-icon">📍</span>
+          <span>Casablanca, Maroc</span>
+        </div>
+        <div class="cv-detail-item">
+          <span class="detail-icon">💼</span>
+          <span>5 ans d'expérience</span>
+        </div>
+      </div>
+      <div class="cv-skills">
+        <span class="skill-tag">React</span>
+        <span class="skill-tag">Node.js</span>
+        <span class="skill-tag">MongoDB</span>
+        <span class="skill-tag">TypeScript</span>
+      </div>
+      <div class="cv-actions">
+        <button class="btn-view">Voir le CV</button>
+        <button class="btn-contact">Contacter</button>
+      </div>
+    </div>
+
+    CV Card 2 
+    <div class="cv-card" data-domain="design">
+      <div class="cv-header">
+        <div class="cv-avatar">
+          <span>SB</span>
+        </div>
+        <div class="cv-info">
+          <h3 class="cv-name">Sara Bennani</h3>
+          <p class="cv-title">UI/UX Designer</p>
+        </div>
+      </div>
+      <div class="cv-details">
+        <div class="cv-detail-item">
+          <span class="detail-icon">📍</span>
+          <span>Rabat, Maroc</span>
+        </div>
+        <div class="cv-detail-item">
+          <span class="detail-icon">💼</span>
+          <span>3 ans d'expérience</span>
+        </div>
+      </div>
+      <div class="cv-skills">
+        <span class="skill-tag">Figma</span>
+        <span class="skill-tag">Adobe XD</span>
+        <span class="skill-tag">Sketch</span>
+        <span class="skill-tag">Prototyping</span>
+      </div>
+      <div class="cv-actions">
+        <button class="btn-view">Voir le CV</button>
+        <button class="btn-contact">Contacter</button>
+      </div>
+    </div>
+
+     CV Card 3 
+    <div class="cv-card" data-domain="marketing">
+      <div class="cv-header">
+        <div class="cv-avatar">
+          <span>YK</span>
+        </div>
+        <div class="cv-info">
+          <h3 class="cv-name">Youssef Khalil</h3>
+          <p class="cv-title">Digital Marketing Manager</p>
+        </div>
+      </div>
+      <div class="cv-details">
+        <div class="cv-detail-item">
+          <span class="detail-icon">📍</span>
+          <span>Marrakech, Maroc</span>
+        </div>
+        <div class="cv-detail-item">
+          <span class="detail-icon">💼</span>
+          <span>7 ans d'expérience</span>
+        </div>
+      </div>
+      <div class="cv-skills">
+        <span class="skill-tag">SEO</span>
+        <span class="skill-tag">Google Ads</span>
+        <span class="skill-tag">Social Media</span>
+        <span class="skill-tag">Analytics</span>
+      </div>
+      <div class="cv-actions">
+        <button class="btn-view">Voir le CV</button>
+        <button class="btn-contact">Contacter</button>
+      </div>
+    </div>
+
+     CV Card 4
+    <div class="cv-card" data-domain="tech">
+      <div class="cv-header">
+        <div class="cv-avatar">
+          <span>LM</span>
+        </div>
+        <div class="cv-info">
+          <h3 class="cv-name">Leila Mansouri</h3>
+          <p class="cv-title">Data Scientist</p>
+        </div>
+      </div>
+      <div class="cv-details">
+        <div class="cv-detail-item">
+          <span class="detail-icon">📍</span>
+          <span>Tanger, Maroc</span>
+        </div>
+        <div class="cv-detail-item">
+          <span class="detail-icon">💼</span>
+          <span>4 ans d'expérience</span>
+        </div>
+      </div>
+      <div class="cv-skills">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Machine Learning</span>
+        <span class="skill-tag">TensorFlow</span>
+        <span class="skill-tag">SQL</span>
+      </div>
+      <div class="cv-actions">
+        <button class="btn-view">Voir le CV</button>
+        <button class="btn-contact">Contacter</button>
+      </div>
+    </div>
+
+     CV Card 5 
+    <div class="cv-card" data-domain="finance">
+      <div class="cv-header">
+        <div class="cv-avatar">
+          <span>KA</span>
+        </div>
+        <div class="cv-info">
+          <h3 class="cv-name">Karim Alaoui</h3>
+          <p class="cv-title">Analyste Financier</p>
+        </div>
+      </div>
+      <div class="cv-details">
+        <div class="cv-detail-item">
+          <span class="detail-icon">📍</span>
+          <span>Casablanca, Maroc</span>
+        </div>
+        <div class="cv-detail-item">
+          <span class="detail-icon">💼</span>
+          <span>6 ans d'expérience</span>
+        </div>
+      </div>
+      <div class="cv-skills">
+        <span class="skill-tag">Excel</span>
+        <span class="skill-tag">Financial Modeling</span>
+        <span class="skill-tag">Bloomberg</span>
+        <span class="skill-tag">SAP</span>
+      </div>
+      <div class="cv-actions">
+        <button class="btn-view">Voir le CV</button>
+        <button class="btn-contact">Contacter</button>
+      </div>
+    </div>
+
+     CV Card 6
+    <div class="cv-card" data-domain="education">
+      <div class="cv-header">
+        <div class="cv-avatar">
+          <span>NE</span>
+        </div>
+        <div class="cv-info">
+          <h3 class="cv-name">Nadia El Fassi</h3>
+          <p class="cv-title">Professeur de Mathématiques</p>
+        </div>
+      </div>
+      <div class="cv-details">
+        <div class="cv-detail-item">
+          <span class="detail-icon">📍</span>
+          <span>Fès, Maroc</span>
+        </div>
+        <div class="cv-detail-item">
+          <span class="detail-icon">💼</span>
+          <span>10 ans d'expérience</span>
+        </div>
+      </div>
+      <div class="cv-skills">
+        <span class="skill-tag">Pédagogie</span>
+        <span class="skill-tag">Mathématiques</span>
+        <span class="skill-tag">Gestion de classe</span>
+        <span class="skill-tag">E-learning</span>
+      </div>
+      <div class="cv-actions">
+        <button class="btn-view">Voir le CV</button>
+        <button class="btn-contact">Contacter</button>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Back Button -->
+  <div class="buttons">
+    <button class="btn secondary" id="btn-accueil">Retour à l'accueil</button>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script>
+  // Navigation
+  document.getElementById("btn-accueil").addEventListener("click", function() {
+    window.location.href = "Home.html";
+  });
+
+  // Search functionality
+  const searchInput = document.getElementById('search');
+  const filterSelect = document.getElementById('filter');
+  const cvCards = document.querySelectorAll('.cv-card');
+
+  function filterCVs() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const filterValue = filterSelect.value;
+
+    cvCards.forEach(card => {
+      const name = card.querySelector('.cv-name').textContent.toLowerCase();
+      const title = card.querySelector('.cv-title').textContent.toLowerCase();
+      const skills = Array.from(card.querySelectorAll('.skill-tag'))
+        .map(tag => tag.textContent.toLowerCase())
+        .join(' ');
+      const domain = card.getAttribute('data-domain');
+
+      const matchesSearch = name.includes(searchTerm) || 
+                           title.includes(searchTerm) || 
+                           skills.includes(searchTerm);
+      const matchesFilter = filterValue === 'all' || domain === filterValue;
+
+      if (matchesSearch && matchesFilter) {
+        card.style.display = 'block';
+        card.style.animation = 'fadeIn 0.5s ease forwards';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  searchInput.addEventListener('input', filterCVs);
+  filterSelect.addEventListener('change', filterCVs);
+
+  // Button interactions
+  document.querySelectorAll('.btn-view').forEach(btn => {
+    btn.addEventListener('click', function() {
+      alert('Fonctionnalité de visualisation du CV à venir !');
+    });
+  });
+
+  document.querySelectorAll('.btn-contact').forEach(btn => {
+    btn.addEventListener('click', function() {
+      alert('Fonctionnalité de contact à venir !');
+    });
+  });
+</script>
+
+</body>
+</html>

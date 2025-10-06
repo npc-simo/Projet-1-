@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV - Template 1</title>
+  <link rel="stylesheet" href="Cv1.css">
+  <link rel="icon" href="Images/Logo.webp">
+</head>
+<body>
+
+  <div class="cv-container">
+    
+    <!-- Header Section -->
+    <header class="cv-header">
+      <div class="profile-photo" id="profilePhoto"></div>
+      <div class="header-info">
+        <h1 class="name" id="fullName"></h1>
+        <p class="job-title" id="jobTitle"></p>
+        <div class="contact-info" id="contactInfo"></div>
+      </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="cv-section" id="aboutSection">
+      <h2 class="section-title">À Propos</h2>
+      <p class="about-text" id="aboutText"></p>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="cv-section" id="experienceSection">
+      <h2 class="section-title">Expérience Professionnelle</h2>
+      <div id="experienceContainer"></div>
+    </section>
+
+    <!-- Education Section -->
+    <section class="cv-section" id="educationSection">
+      <h2 class="section-title">Formation</h2>
+      <div id="educationContainer"></div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="cv-section" id="skillsSection">
+      <h2 class="section-title">Compétences Techniques</h2>
+      <div class="skills-container" id="skillsContainer"></div>
+    </section>
+
+    <!-- Soft Skills Section -->
+    <section class="cv-section" id="softSkillsSection">
+      <h2 class="section-title">Soft Skills</h2>
+      <div class="skills-container" id="softSkillsContainer"></div>
+    </section>
+
+    <!-- Languages Section -->
+    <section class="cv-section" id="languagesSection">
+      <h2 class="section-title">Langues</h2>
+      <div class="languages-container" id="languagesContainer"></div>
+    </section>
+
+    <!-- Footer Actions -->
+    <div class="cv-actions">
+      <button class="btn-action" onclick="window.print()">Télécharger PDF</button>
+      <button class="btn-action secondary" onclick="window.location.href='Input.html'">Modifier</button>
+      <button class="btn-action secondary" onclick="window.location.href='Home.html'">Accueil</button>
+    </div>
+
+  </div>
+
+  <script>
+    // Load CV data from localStorage
+    const cvData = JSON.parse(localStorage.getItem('cvData'));
+    const cvPhoto = localStorage.getItem('cvPhoto');
+
+    if (!cvData) {
+      alert('Aucune donnée trouvée. Veuillez remplir le formulaire.');
+      window.location.href = 'Input.html';
+    } else {
+      populateCV(cvData);
+    }
+
+    function populateCV(data) {
+      // Profile Photo
+      const profilePhoto = document.getElementById('profilePhoto');
+      if (cvPhoto) {
+        profilePhoto.innerHTML = `<img src="${cvPhoto}" alt="Photo">`;
+      } else {
+        const initials = (data.prenom ? data.prenom.charAt(0) : '') + (data.nom ? data.nom.charAt(0) : '');
+        profilePhoto.innerHTML = `<div class="placeholder-avatar">${initials}</div>`;
+      }
+
+      // Full Name & Job Title
+      document.getElementById('fullName').textContent = `${data.prenom || ''} ${data.nom || ''}`;
+      document.getElementById('jobTitle').textContent = data.poste_souhaite || '';
+
+      // Contact Info
+      const dateNaissance = `${data.day || ''}/${data.month || ''}/${data.year || ''}`;
+      const contactInfo = document.getElementById('contactInfo');
+      contactInfo.innerHTML = `
+        <span class="contact-item">${data.email || ''}</span>
+        <span class="contact-item">${data.telephone || ''}</span>
+        <span class="contact-item">${data.ville || ''}</span>
+        <span class="contact-item">${dateNaissance}</span>
+      `;
+
+      // About/Resume
+      document.getElementById('aboutText').textContent = data.resume || '';
+
+      // Experiences
+      const experienceContainer = document.getElementById('experienceContainer');
+      const postes = Array.isArray(data['poste[]']) ? data['poste[]'] : [data['poste[]']];
+      const entreprises = Array.isArray(data['entreprise[]']) ? data['entreprise[]'] : [data['entreprise[]']];
+      const exp_debuts = Array.isArray(data['exp_debut[]']) ? data['exp_debut[]'] : [data['exp_debut[]']];
+      const exp_fins = Array.isArray(data['exp_fin[]']) ? data['exp_fin[]'] : [data['exp_fin[]']];
+      const exp_descs = Array.isArray(data['exp_desc[]']) ? data['exp_desc[]'] : [data['exp_desc[]']];
+
+      if (postes && postes[0]) {
+        postes.forEach((poste, index) => {
+          if (poste) {
+            const expDiv = document.createElement('div');
+            expDiv.className = 'experience-item';
+            expDiv.innerHTML = `
+              <div class="item-header">
+                <div>
+                  <h3 class="item-title">${poste}</h3>
+                  <p class="item-company">${entreprises[index] || ''}</p>
+                </div>
+                <span class="item-date">${exp_debuts[index] || ''} - ${exp_fins[index] || ''}</span>
+              </div>
+              <p class="item-description">${exp_descs[index] || ''}</p>
+            `;
+            experienceContainer.appendChild(expDiv);
+          }
+        });
+      } else {
+        document.getElementById('experienceSection').style.display = 'none';
+      }
+
+      // Education/Formations
+      const educationContainer = document.getElementById('educationContainer');
+      const diplomes = Array.isArray(data['diplome[]']) ? data['diplome[]'] : [data['diplome[]']];
+      const etablissements = Array.isArray(data['etablissement[]']) ? data['etablissement[]'] : [data['etablissement[]']];
+      const formation_debuts = Array.isArray(data['formation_debut[]']) ? data['formation_debut[]'] : [data['formation_debut[]']];
+      const formation_fins = Array.isArray(data['formation_fin[]']) ? data['formation_fin[]'] : [data['formation_fin[]']];
+      const formation_descs = Array.isArray(data['formation_desc[]']) ? data['formation_desc[]'] : [data['formation_desc[]']];
+
+      if (diplomes && diplomes[0]) {
+        diplomes.forEach((diplome, index) => {
+          if (diplome) {
+            const eduDiv = document.createElement('div');
+            eduDiv.className = 'education-item';
+            eduDiv.innerHTML = `
+              <div class="item-header">
+                <div>
+                  <h3 class="item-title">${diplome}</h3>
+                  <p class="item-company">${etablissements[index] || ''}</p>
+                </div>
+                <span class="item-date">${formation_debuts[index] || ''} - ${formation_fins[index] || ''}</span>
+              </div>
+              <p class="item-description">${formation_descs[index] || ''}</p>
+            `;
+            educationContainer.appendChild(eduDiv);
+          }
+        });
+      } else {
+        document.getElementById('educationSection').style.display = 'none';
+      }
+
+      // Technical Skills
+      const skillsContainer = document.getElementById('skillsContainer');
+      if (data.competences) {
+        const skills = data.competences.split(',').map(s => s.trim()).filter(s => s);
+        skills.forEach(skill => {
+          const skillTag = document.createElement('span');
+          skillTag.className = 'skill-tag';
+          skillTag.textContent = skill;
+          skillsContainer.appendChild(skillTag);
+        });
+      } else {
+        document.getElementById('skillsSection').style.display = 'none';
+      }
+
+      // Soft Skills
+      const softSkillsContainer = document.getElementById('softSkillsContainer');
+      if (data.soft_skills) {
+        const softSkills = data.soft_skills.split(',').map(s => s.trim()).filter(s => s);
+        softSkills.forEach(skill => {
+          const skillTag = document.createElement('span');
+          skillTag.className = 'skill-tag soft';
+          skillTag.textContent = skill;
+          softSkillsContainer.appendChild(skillTag);
+        });
+      } else {
+        document.getElementById('softSkillsSection').style.display = 'none';
+      }
+
+      // Languages
+      const languagesContainer = document.getElementById('languagesContainer');
+      const hasLangue1 = data.langue1 && data.niveau1;
+      const hasLangue2 = data.langue2 && data.niveau2;
+
+      if (hasLangue1 || hasLangue2) {
+        const levelWidths = {
+          'debutant': '20%',
+          'intermediaire': '50%',
+          'avance': '75%',
+          'courant': '90%',
+          'natif': '100%'
+        };
+
+        const levelTexts = {
+          'debutant': 'Débutant',
+          'intermediaire': 'Intermédiaire',
+          'avance': 'Avancé',
+          'courant': 'Courant',
+          'natif': 'Natif'
+        };
+
+        if (hasLangue1) {
+          const langDiv1 = document.createElement('div');
+          langDiv1.className = 'language-item';
+          langDiv1.innerHTML = `
+            <span class="language-name">${data.langue1}</span>
+            <div class="language-level">
+              <div class="level-bar" style="width: ${levelWidths[data.niveau1] || '50%'}"></div>
+            </div>
+            <span class="level-text">${levelTexts[data.niveau1] || data.niveau1}</span>
+          `;
+          languagesContainer.appendChild(langDiv1);
+        }
+
+        if (hasLangue2) {
+          const langDiv2 = document.createElement('div');
+          langDiv2.className = 'language-item';
+          langDiv2.innerHTML = `
+            <span class="language-name">${data.langue2}</span>
+            <div class="language-level">
+              <div class="level-bar" style="width: ${levelWidths[data.niveau2] || '50%'}"></div>
+            </div>
+            <span class="level-text">${levelTexts[data.niveau2] || data.niveau2}</span>
+          `;
+          languagesContainer.appendChild(langDiv2);
+        }
+      } else {
+        document.getElementById('languagesSection').style.display = 'none';
+      }
+    }
+  </script>
+
+</body>
+</html>

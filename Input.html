@@ -243,6 +243,45 @@
         </div>
       </div>
 
+      <!-- Section Choix de Template -->
+<div class="form-section">
+  <h3 class="section-title">Choix du Template</h3>
+  <p style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 15px;">
+    Sélectionnez le modèle de CV que vous préférez
+  </p>
+  
+  <div class="template-choice">
+    <label class="template-option">
+      <input type="radio" name="template" value="template1" required checked>
+      <div class="template-card">
+        <div class="template-preview template1-preview">
+          <div class="preview-header"></div>
+          <div class="preview-line"></div>
+          <div class="preview-line short"></div>
+          <div class="preview-section"></div>
+        </div>
+        <h4>Template 1</h4>
+        <p>Design classique et professionnel</p>
+      </div>
+    </label>
+    
+    <label class="template-option">
+      <input type="radio" name="template" value="template2" required>
+      <div class="template-card">
+        <div class="template-preview template2-preview">
+          <div class="preview-sidebar"></div>
+          <div class="preview-content">
+            <div class="preview-line"></div>
+            <div class="preview-line short"></div>
+          </div>
+        </div>
+        <h4>Template 2</h4>
+        <p>Design moderne avec sidebar</p>
+      </div>
+    </label>
+  </div>
+</div>
+
       <!-- Boutons -->
       <div class="buttons">
         <button class="btn" type="submit">Générer le CV</button>
@@ -251,8 +290,7 @@
     </form>
   </div>
 
-  <!-- ===== SCRIPTS ===== -->
-  <script>
+<script>
     // Bouton retour
     document.getElementById("btn-accueil").addEventListener("click", function() {
       window.location.href = "Home.html";
@@ -272,6 +310,8 @@
         const reader = new FileReader();
         reader.onload = function(event) {
           imagePreview.innerHTML = `<img src="${event.target.result}" alt="Preview">`;
+          // Save image f localStorage
+          localStorage.setItem('cvPhoto', event.target.result);
         };
         reader.readAsDataURL(file);
       } else {
@@ -347,7 +387,47 @@
       
       document.getElementById('experiences-container').insertAdjacentHTML('beforeend', experienceHTML);
     });
-  </script>
+
+    // Form submission - Redirect 7asb template
+    const form = document.querySelector('.cv-form');
+    
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Jme3 data mn form
+      const formData = new FormData(form);
+      const data = {};
+      
+      for (let [key, value] of formData.entries()) {
+        if (data[key]) {
+          // Ila key deja kayn (arrays like diplome[]), dir array
+          if (!Array.isArray(data[key])) {
+            data[key] = [data[key]];
+          }
+          data[key].push(value);
+        } else {
+          data[key] = value;
+        }
+      }
+      
+      // Save data f localStorage
+      localStorage.setItem('cvData', JSON.stringify(data));
+      
+      // Redirect 7asb template
+      const selectedTemplate = document.querySelector('input[name="template"]:checked');
+      
+      if (!selectedTemplate) {
+        alert('Veuillez sélectionner un template');
+        return;
+      }
+      
+      if (selectedTemplate.value === 'template1') {
+        window.location.href = 'CV1.html';
+      } else if (selectedTemplate.value === 'template2') {
+        window.location.href = 'CV2.html';
+      }
+    });
+</script>
 
 </body>
 </html>
